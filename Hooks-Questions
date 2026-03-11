@@ -1,0 +1,348 @@
+1️⃣ 50 React Hooks Interview Questions (with Answers)
+Basic Level
+1. What are Hooks in React?
+
+Hooks are functions that allow functional components to use state and lifecycle features of React without using class components.
+
+2. When were Hooks introduced?
+
+Hooks were introduced in React 16.8.
+
+3. What problems do Hooks solve?
+
+Hooks solve:
+
+Complex lifecycle logic
+
+Code reuse
+
+Class component complexity
+
+Prop drilling issues (with Context)
+
+4. What are the rules of Hooks?
+
+Call hooks only at top level
+
+Call hooks only inside React functions
+
+5. What is useState?
+
+useState allows functional components to manage state.
+
+const [count,setCount] = useState(0)
+6. What happens when state changes?
+
+React re-renders the component.
+
+7. Can we use multiple useState hooks?
+
+Yes.
+
+const [name,setName] = useState("")
+const [age,setAge] = useState(0)
+8. Is useState synchronous or asynchronous?
+
+It behaves asynchronously because React batches updates.
+
+9. What is useEffect?
+
+useEffect handles side effects like:
+
+API calls
+
+timers
+
+subscriptions
+
+DOM updates
+
+10. What is dependency array?
+
+The dependency array controls when useEffect runs.
+
+useEffect(()=>{},[count])
+Intermediate Questions
+11. What happens if dependency array is empty?
+useEffect(()=>{},[])
+
+Runs only once (componentDidMount equivalent).
+
+12. What happens if dependency array is not provided?
+useEffect(()=>{
+ console.log("runs every render")
+})
+
+Runs on every render.
+
+13. What is cleanup function?
+
+Used to remove side effects like timers.
+
+useEffect(()=>{
+ const timer=setInterval(()=>{},1000)
+
+ return ()=>clearInterval(timer)
+},[])
+14. What is useRef?
+
+useRef stores mutable values and DOM references.
+
+const ref = useRef()
+15. Does useRef cause re-render?
+
+❌ No.
+
+16. Difference between useRef and useState?
+useRef	useState
+No re-render	Causes re-render
+Stores mutable values	Stores state
+17. What is useContext?
+
+Allows accessing global state without prop drilling.
+
+18. What is prop drilling?
+
+Passing props through multiple components unnecessarily.
+
+19. What is useMemo?
+
+Optimizes performance by memoizing values.
+
+20. What is useCallback?
+
+Memoizes functions to avoid unnecessary re-renders.
+
+Advanced Questions
+21. Difference between useMemo and useCallback?
+Hook	Memoizes
+useMemo	Values
+useCallback	Functions
+22. What is useReducer?
+
+Alternative to useState for complex state logic.
+
+23. What are custom hooks?
+
+Reusable logic using hooks.
+
+Example:
+
+function useCounter(){
+ const [count,setCount]=useState(0)
+ return {count,setCount}
+}
+24. What is useLayoutEffect?
+
+Runs before browser paint.
+
+25. Why avoid heavy calculations in render?
+
+It causes performance issues.
+
+26. What is React memo?
+
+React.memo prevents unnecessary component re-renders.
+
+27. When should we use useReducer?
+
+Use when:
+
+complex state
+
+multiple updates
+
+Redux-like logic
+
+28. Can hooks be conditional?
+
+❌ No.
+
+29. Can hooks be used in loops?
+
+❌ No.
+
+30. What is hook call order?
+
+React relies on consistent order of hook calls.
+
+31. What is batching in React?
+
+React groups multiple state updates into one render.
+
+32. Can we call API inside useState?
+
+❌ No. Use useEffect.
+
+33. Why use dependency array?
+
+To control effect execution.
+
+34. What happens if dependency is incorrect?
+
+It may cause:
+
+infinite loops
+
+stale data
+
+35. What is stale closure?
+
+When hook uses old state value.
+
+36. What is lazy initialization in useState?
+const [state,setState]=useState(()=>expensiveFunction())
+37. What is useTransition?
+
+Used for non-blocking UI updates.
+
+38. What is useDeferredValue?
+
+Defers expensive renders.
+
+39. What is useId?
+
+Creates unique IDs.
+
+40. What is useSyncExternalStore?
+
+Used for external state libraries.
+
+41. Why hooks replaced lifecycle methods?
+
+Simpler code + reusable logic.
+
+42. How do hooks improve code reuse?
+
+Through custom hooks.
+
+43. Can hooks replace Redux?
+
+Sometimes yes (with Context + useReducer).
+
+44. What is side effect?
+
+Any action outside rendering.
+
+Example:
+
+API call
+
+DOM change
+
+45. Can hooks be nested?
+
+❌ No.
+
+46. Are hooks backward compatible?
+
+Yes.
+
+47. Are hooks faster than class components?
+
+Performance is similar but cleaner.
+
+48. What is hook composition?
+
+Combining multiple hooks.
+
+49. What is the difference between functional and class components?
+Functional	Class
+Hooks	Lifecycle methods
+50. Why companies prefer hooks?
+
+cleaner code
+
+reusable logic
+
+easier testing
+
+2️⃣ Real Project Examples for Hooks
+Example 1 – API Fetch
+import {useState,useEffect} from "react"
+
+function Users(){
+
+ const [users,setUsers]=useState([])
+
+ useEffect(()=>{
+
+ fetch("https://jsonplaceholder.typicode.com/users")
+ .then(res=>res.json())
+ .then(data=>setUsers(data))
+
+ },[])
+
+ return(
+  <>
+   {users.map(user=>(
+     <p key={user.id}>{user.name}</p>
+   ))}
+  </>
+ )
+}
+Example 2 – Input Focus (useRef)
+import {useRef} from "react"
+
+function FocusInput(){
+
+ const inputRef = useRef()
+
+ const focus=()=>{
+  inputRef.current.focus()
+ }
+
+ return(
+  <>
+   <input ref={inputRef}/>
+   <button onClick={focus}>Focus</button>
+  </>
+ )
+}
+Example 3 – Performance Optimization
+const result = useMemo(()=>{
+ return expensiveCalculation(num)
+},[num])
+3️⃣ Advanced Hooks Used in Companies
+useTransition
+
+Used for slow UI updates.
+
+Example:
+
+const [isPending,startTransition]=useTransition()
+
+startTransition(()=>{
+ setList(newData)
+})
+useDeferredValue
+
+Used to delay expensive renders.
+
+const deferredValue = useDeferredValue(searchTerm)
+useId
+
+Used for accessibility.
+
+const id = useId()
+4️⃣ React Hooks Cheat Sheet (Quick Revision)
+Hook	Purpose
+useState	state management
+useEffect	side effects
+useContext	global state
+useRef	DOM access
+useMemo	performance optimization
+useCallback	memoized functions
+useReducer	complex state
+useLayoutEffect	before DOM paint
+⭐ Important Hooks for Interviews
+
+Focus mainly on:
+
+1️⃣ useState
+2️⃣ useEffect
+3️⃣ useRef
+4️⃣ useContext
+5️⃣ useMemo
+6️⃣ useCallback
+7️⃣ useReducer
